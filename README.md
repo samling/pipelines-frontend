@@ -24,8 +24,10 @@ The Pipelines container provides an openai-compatible API endpoint that any Open
 
 Create a `.env.local` file in the root directory with the following variables:
 
+```bash
 NEXT_PUBLIC_PIPELINES_API_BASE_URL=your_pipelines_api_url
 NEXT_PUBLIC_PIPELINES_API_KEY=your_api_key
+```
 
 Replace:
 - `your_pipelines_api_url` with the URL of your Pipelines container (e.g., `http://localhost:8000` or `https://your-domain.com`)
@@ -39,3 +41,5 @@ npm install
 # Run the development server
 npm run dev
 ```
+
+Navigate to `http://localhost:3000`.
