@@ -5,12 +5,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --pre-background: #f3f4f6;
+  --pre-foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --pre-background: #1f2937;
+    --pre-foreground: #ededed;
   }
 }
 
@@ -18,4 +22,9 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+pre {
+  background-color: var(--pre-background) !important;
+  color: var(--pre-foreground) !important;
 }
