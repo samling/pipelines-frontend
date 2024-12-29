@@ -153,7 +153,7 @@ export default function PipelineManager() {
     try {
       setIsUploading(true);
       const headers = {
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_BASE_KEY}`,
       };
       await fetch(`${API_BASE_URL}/v1/pipelines/upload`, {
         method: 'POST',
@@ -414,21 +414,40 @@ export default function PipelineManager() {
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Pipeline
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   ID
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-              {models.map((model) => (
-                <tr key={model.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                    {model.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {model.id}
-                  </td>
-                </tr>
-              ))}
+              {models.map((model) => {
+                const pipelineId = model.id.split('.')[0];
+                const matchingPipeline = pipelines.find(p => p.id === pipelineId);
+                
+                return (
+                  <tr key={model.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                      {model.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                      {matchingPipeline ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                          {matchingPipeline.name}
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100">
+                          {pipelineId}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      {model.id}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
