@@ -13,33 +13,54 @@ The Pipelines container provides an openai-compatible API endpoint that any Open
 - Configure pipeline valve settings via JSON editor
 - View available AI models and their pipeline associations
 
-## Getting Started
-
-### Prerequisites
+## Prerequisites
 
 - Node.js 18+ installed
 - A running instance of [Open-WebUI Pipelines](https://github.com/open-webui/pipelines)
 
-### Environment Setup
+## Environment Setup
 
-Create a `.env.local` file in the root directory with the following variables:
+The application uses environment variables for configuration. Create a `.env.local` file based on `.env.example`:
 
 ```bash
-NEXT_PUBLIC_PIPELINES_API_BASE_URL=your_pipelines_api_url
-NEXT_PUBLIC_PIPELINES_API_KEY=your_api_key
+cp ./src/app/.env.example .env.local
 ```
 
-Replace:
-- `your_pipelines_api_url` with the URL of your Pipelines container (e.g., `http://localhost:8000` or `https://your-domain.com`)
-- `your_api_key` with your Pipelines API key
+Configure the following variables in your `.env.local`:
 
-### Installation
+- `PIPELINES_API_BASE_URL`: URL of your Pipelines API (e.g., `http://localhost:8000`)
+- `PIPELINES_API_KEY`: Your Pipelines API key
+
+## Installation
+
+### Local Development
+
 ```bash
 # Install dependencies
 npm install
 
 # Run the development server
 npm run dev
+```
+
+Navigate to `http://localhost:3000`.
+
+### Docker
+
+Build the dockerfile:
+
+```bash
+docker build -t pipelines-frontend .
+
+(or)
+
+docker compose build
+```
+
+Run using docker compose:
+
+```bash
+docker compose up
 ```
 
 Navigate to `http://localhost:3000`.

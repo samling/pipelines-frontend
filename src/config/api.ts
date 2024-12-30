@@ -1,8 +1,15 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
-export const API_KEY = process.env.NEXT_PUBLIC_API_KEY || '';
+'use client'
+import { useEnvContext } from '@/providers/env-provider'
 
-// Helper function to get common headers
-export const getApiHeaders = () => ({
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${API_KEY}`,
-});
+export const useApiConfig = () => {
+  const env = useEnvContext();
+  
+  return {
+    API_BASE_URL: env.PIPELINES_API_BASE_URL,
+    API_KEY: env.PIPELINES_API_KEY,
+    getApiHeaders: () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${env.PIPELINES_API_KEY}`,
+    })
+  }
+}

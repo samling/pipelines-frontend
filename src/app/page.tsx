@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { API_BASE_URL, getApiHeaders } from '@/config/api';
+import { useApiConfig } from '@/config/api';
 import JsonEditor from '@/components/JsonEditor';
 import Toast from '@/components/Toast';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -41,6 +41,7 @@ interface ValvesData {
 }
 
 export default function PipelineManager() {
+  const { API_BASE_URL, getApiHeaders } = useApiConfig()
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [models, setModels] = useState<Model[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<string | null>(null);
@@ -66,7 +67,7 @@ export default function PipelineManager() {
   useEffect(() => {
     fetchPipelines();
     fetchModels();
-  }, []);
+  }, [API_BASE_URL]);
 
   const fetchPipelines = async () => {
     try {
@@ -152,12 +153,9 @@ export default function PipelineManager() {
 
     try {
       setIsUploading(true);
-      const headers = {
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_BASE_KEY}`,
-      };
       await fetch(`${API_BASE_URL}/v1/pipelines/upload`, {
         method: 'POST',
-        headers,
+        headers: getApiHeaders(),
         body: formData,
       });
       await fetchPipelines();
@@ -201,6 +199,7 @@ export default function PipelineManager() {
       await fetch(`${API_BASE_URL}/v1/pipelines/reload`, {
         method: 'POST',
         headers: getApiHeaders(),
+        body: JSON.stringify({}),
       });
       await fetchPipelines();
       await fetchModels();
